@@ -4,6 +4,10 @@ func Identity[X any](x X) X {
 	return x
 }
 
+func Compose[X any, Y any, Z any](val X, f func(X) Y, g func(Y) Z) Z {
+	return g(f(val))
+}
+
 func Map[X any, Y any](xs []X, f func(X) Y) []Y {
 	ys := make([]Y, len(xs))
 
