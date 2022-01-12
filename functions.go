@@ -29,3 +29,13 @@ func Filter[X any](xs []X, predicate func(X) bool) []X {
 
 	return result
 }
+
+func Foldl[X any, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
+	acc := identity
+
+	for _, v := range values {
+		acc = f(acc, v)
+	}
+
+	return acc
+}

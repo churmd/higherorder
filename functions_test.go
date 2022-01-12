@@ -25,8 +25,8 @@ func TestIdentity(t *testing.T) {
 }
 
 func TestCompose(t *testing.T) {
-	f := func(x int) string {return strconv.Itoa(x)}
-	g := func(y string) bool {return y == "10"}
+	f := func(x int) string { return strconv.Itoa(x) }
+	g := func(y string) bool { return y == "10" }
 
 	actualOutput := higherorder.Compose(10, f, g)
 
@@ -63,6 +63,39 @@ func TestFilterNoElemsPass(t *testing.T) {
 	assert.Equal(t, expectedOutput, actualOutput)
 }
 
+func TestFoldl(t *testing.T) {
+	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	identity := 0
+	sum := func(x, y int) int { return x + y }
+	expectedOutput := 55
+
+	actualOutput := higherorder.Foldl(sum, identity, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
+func TestFoldlNonAssociativeFunc(t *testing.T) {
+	input := []int{4, 2, 4}
+	identity := 64
+	sum := func(x, y int) int { return x / y }
+	expectedOutput := 2
+
+	actualOutput := higherorder.Foldl(sum, identity, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
+func TestFoldlChangeType(t *testing.T) {
+	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	identity := ""
+	toStringAndConcat := func(x string, y int) string { return x + strconv.Itoa(y) }
+	expectedOutput := "12345678910"
+
+	actualOutput := higherorder.Foldl(toStringAndConcat, identity, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
 // Benchmarks
 
 func largeList() []int {
@@ -93,3 +126,5 @@ func BenchmarkFilter(b *testing.B) {
 		higherorder.Filter(input, isEven)
 	}
 }
+
+// TODO add missing benchmarks
