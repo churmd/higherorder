@@ -1,5 +1,9 @@
 package higherorder
 
+func Identity[X any](x X) X {
+	return x
+}
+
 func Map[X any, Y any](xs []X, f func(X) Y) []Y {
 	ys := make([]Y, len(xs))
 

@@ -8,6 +8,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestIdentity(t *testing.T) {
+	ids := []interface{}{
+		10,
+		"a",
+		10.0,
+		'a',
+		[]int{1, 2, 3},
+	}
+
+	for _, val := range ids {
+		actualOutput := higherorder.Identity(val)
+
+		assert.Equal(t, val, actualOutput)
+	}
+}
+
 func TestMap(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	double := func(x int) int { return x * 2 }
@@ -30,7 +46,7 @@ func TestMapTypeChange(t *testing.T) {
 
 func TestFilter(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	isEven := func(x int) bool { return x % 2 == 0}
+	isEven := func(x int) bool { return x%2 == 0 }
 	expectedOutput := []int{2, 4, 6, 8, 10}
 
 	actualOutput := higherorder.Filter(input, isEven)
@@ -40,7 +56,7 @@ func TestFilter(t *testing.T) {
 
 func TestFilterNoElemsPass(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	isNegavtive := func(x int) bool { return x < 0}
+	isNegavtive := func(x int) bool { return x < 0 }
 	expectedOutput := []int{}
 
 	actualOutput := higherorder.Filter(input, isNegavtive)
@@ -53,7 +69,7 @@ func TestFilterNoElemsPass(t *testing.T) {
 func largeList() []int {
 	n := 1000
 	l := make([]int, n)
-	
+
 	for i := 0; i < n; i++ {
 		l[i] = i
 	}
@@ -72,7 +88,7 @@ func BenchmarkMap(b *testing.B) {
 
 func BenchmarkFilter(b *testing.B) {
 	input := largeList()
-	isEven := func(x int) bool { return x % 2 == 0}
+	isEven := func(x int) bool { return x%2 == 0 }
 
 	for i := 0; i < b.N; i++ {
 		higherorder.Filter(input, isEven)
