@@ -33,6 +33,28 @@ func TestCompose(t *testing.T) {
 	assert.True(t, actualOutput)
 }
 
+func TestReverse(t *testing.T) {
+	inputs := [][]int{
+		{},
+		{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+		{1, 2, 3, 4, 5},
+	}
+
+	expectedOutputs := [][]int{
+		{},
+		{10, 9, 8, 7, 6, 5, 4, 3, 2, 1},
+		{5, 4, 3, 2, 1},
+	}
+
+	for i, input := range inputs {
+		expectedOutput := expectedOutputs[i]
+		actualOutput := higherorder.Reverse(input)
+
+		assert.Equal(t, expectedOutput, actualOutput, "failed reversing list: %v\nExpected:%v\nActual  :%v", input, expectedOutput, actualOutput)
+	}
+
+}
+
 func TestMap(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	toString := func(x int) string { return strconv.Itoa(x) }
@@ -77,10 +99,32 @@ func TestFoldl(t *testing.T) {
 func TestFoldlNonAssociativeFunc(t *testing.T) {
 	input := []int{4, 2, 4}
 	identity := 64
-	sum := func(x, y int) int { return x / y }
+	div := func(x, y int) int { return x / y }
 	expectedOutput := 2
 
-	actualOutput := higherorder.Foldl(sum, identity, input)
+	actualOutput := higherorder.Foldl(div, identity, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
+func TestFoldr(t *testing.T) {
+	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	identity := 0
+	sum := func(x, y int) int { return x + y }
+	expectedOutput := 55
+
+	actualOutput := higherorder.Foldr(sum, identity, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
+func TestFoldrNonAssociativeFunc(t *testing.T) {
+	input := []int{8, 12, 24, 4}
+	identity := 2
+	div := func(x, y int) int { return x / y }
+	expectedOutput := 8
+
+	actualOutput := higherorder.Foldr(div, identity, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
 }
@@ -109,10 +153,20 @@ func largeList() []int {
 	return l
 }
 
+func BenchmarkReverse(b *testing.B) {
+	input := largeList()
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.Reverse(input)
+	}
+}
+
 func BenchmarkMap(b *testing.B) {
 	input := largeList()
 	double := func(x int) int { return x * 2 }
 
+	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		higherorder.Map(input, double)
 	}
@@ -122,9 +176,28 @@ func BenchmarkFilter(b *testing.B) {
 	input := largeList()
 	isEven := func(x int) bool { return x%2 == 0 }
 
+	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		higherorder.Filter(input, isEven)
 	}
 }
 
-// TODO add missing benchmarks
+func BenchmarkFoldl(b *testing.B) {
+	input := largeList()
+	sum := func(x, y int) int { return x + y }
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.Foldl(sum, 0, input)
+	}
+}
+
+func BenchmarkFoldr(b *testing.B) {
+	input := largeList()
+	sum := func(x, y int) int { return x + y }
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.Foldr(sum, 0, input)
+	}
+}
