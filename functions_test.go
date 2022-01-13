@@ -107,6 +107,17 @@ func TestFoldlNonAssociativeFunc(t *testing.T) {
 	assert.Equal(t, expectedOutput, actualOutput)
 }
 
+func TestFoldlChangeType(t *testing.T) {
+	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	identity := ""
+	toStringAndConcat := func(x string, y int) string { return x + strconv.Itoa(y) }
+	expectedOutput := "12345678910"
+
+	actualOutput := higherorder.Foldl(toStringAndConcat, identity, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
 func TestFoldr(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	identity := 0
@@ -129,13 +140,13 @@ func TestFoldrNonAssociativeFunc(t *testing.T) {
 	assert.Equal(t, expectedOutput, actualOutput)
 }
 
-func TestFoldlChangeType(t *testing.T) {
+func TestFoldrChangeType(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	identity := ""
-	toStringAndConcat := func(x string, y int) string { return x + strconv.Itoa(y) }
+	toStringAndConcat := func(x int, y string) string { return strconv.Itoa(x) + y }
 	expectedOutput := "12345678910"
 
-	actualOutput := higherorder.Foldl(toStringAndConcat, identity, input)
+	actualOutput := higherorder.Foldr(toStringAndConcat, identity, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
 }
