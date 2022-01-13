@@ -56,8 +56,8 @@ func Foldl[X any, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
 func Foldr[X any, Y any](f func(x X, y Y) Y, identity Y, values []X) Y {
 	acc := identity
 
-	for _, v := range Reverse(values) {
-		acc = f(v, acc)
+	for i := len(values) - 1; i >= 0; i-- {
+		acc = f(values[i], acc)
 	}
 
 	return acc
