@@ -1,5 +1,7 @@
 package higherorder
 
+import "constraints"
+
 func Identity[X any](x X) X {
 	return x
 }
@@ -61,4 +63,35 @@ func Foldr[X any, Y any](f func(x X, y Y) Y, identity Y, values []X) Y {
 	}
 
 	return acc
+}
+
+// lessThan func(a, b X) bool, 
+func Sort[X constraints.Ordered](xs []X) []X {
+	if len(xs) <= 1 {
+		return xs
+	}
+
+	pivot := xs[0]
+	var lessThan []X
+	var equal []X
+	var greaterThan []X
+
+	for i := 1; i < len(xs); i++ {
+		switch {
+		case xs[i] < pivot:
+			lessThan = append(lessThan, xs[i])
+		case xs[i] > pivot:
+			greaterThan = append(greaterThan, xs[i])
+		default:
+			equal = append(equal, xs[i])
+		}
+	}
+
+	sortedLessThan := Sort(lessThan)
+	sortedGreaterThan := Sort(greaterThan)
+
+	tmp := append(sortedLessThan, pivot)
+	tmp = append(tmp, equal...)
+	tmp = append(tmp, sortedGreaterThan...)
+	return tmp
 }

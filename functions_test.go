@@ -151,6 +151,15 @@ func TestFoldrChangeType(t *testing.T) {
 	assert.Equal(t, expectedOutput, actualOutput)
 }
 
+func TestSort(t *testing.T) {
+	input := []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
+	expectedOutput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	actualOutput := higherorder.Sort(input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
 // Benchmarks
 
 func largeList() []int {
@@ -210,5 +219,14 @@ func BenchmarkFoldr(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		higherorder.Foldr(sum, 0, input)
+	}
+}
+
+func BenchmarkSort(b *testing.B) {
+	input := largeList()
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.Sort(input)
 	}
 }
