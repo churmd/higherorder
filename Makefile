@@ -1,7 +1,10 @@
 format:
 	go1.18beta1 fmt ./...
 
-test:
+clean_test_cache:
+	go1.18beta1 clean -testcache
+
+test: clean_test_cache
 	go1.18beta1 test ./...
 
 coverage:

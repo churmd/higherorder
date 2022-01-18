@@ -4,7 +4,7 @@ func Identity[X any](x X) X {
 	return x
 }
 
-func Compose[X any, Y any, Z any](val X, f func(X) Y, g func(Y) Z) Z {
+func Compose[X, Y, Z any](val X, f func(X) Y, g func(Y) Z) Z {
 	return g(f(val))
 }
 
@@ -21,7 +21,7 @@ func Reverse[X any](xs []X) []X {
 	return xs
 }
 
-func Map[X any, Y any](xs []X, f func(X) Y) []Y {
+func Map[X, Y any](xs []X, f func(X) Y) []Y {
 	ys := make([]Y, len(xs))
 
 	for i, x := range xs {
@@ -43,7 +43,7 @@ func Filter[X any](xs []X, predicate func(X) bool) []X {
 	return result
 }
 
-func Foldl[X any, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
+func Foldl[X, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
 	acc := identity
 
 	for _, v := range values {
@@ -53,7 +53,7 @@ func Foldl[X any, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
 	return acc
 }
 
-func Foldr[X any, Y any](f func(x X, y Y) Y, identity Y, values []X) Y {
+func Foldr[X, Y any](f func(x X, y Y) Y, identity Y, values []X) Y {
 	acc := identity
 
 	for i := len(values) - 1; i >= 0; i-- {
