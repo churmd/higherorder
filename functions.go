@@ -39,7 +39,7 @@ func Map[X, Y any](f func(X) Y, xs []X) []Y {
 }
 
 // Given a list, returns a list of those elements that satisfy the given predicate
-func Filter[X any]( predicate func(X) bool, xs []X) []X {
+func Filter[X any](predicate func(X) bool, xs []X) []X {
 	result := make([]X, 0)
 
 	for _, x := range xs {
@@ -56,7 +56,7 @@ func Filter[X any]( predicate func(X) bool, xs []X) []X {
 // The identity value is passed to f with the first element in the slice to start with
 // the result of that is passed to f with the sencond element of the slice
 // and so on
-// 
+//
 // Example:
 // f := func(x, y int) int { return x + y }
 // Foldl(f, 0, []int{1,2,3}]) == (((0 + 1) + 2) + 3)
@@ -70,13 +70,12 @@ func Foldl[X, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
 	return acc
 }
 
-
 // Reduces the slice using the given binary function f from right to left
 //
 // The last element of the slice is passed to f with the identity value to start
 // the second to last element of the slice is passed to f with the result of that
 // and so on
-// 
+//
 // Example:
 // f := func(x, y int) int { return x + y }
 // Foldr(f, 0, []int{1,2,3}]) == 1 + (2 + (3 + 0))
@@ -112,8 +111,8 @@ func (ss *sortableSlice[X]) Swap(i, j int) {
 }
 
 // Given a list, returns the sorted list according to the given lessThan function
-// 
-// lessThan function returns true 
+//
+// lessThan function returns true
 // when the first param a comes before the second param b
 func Sort[X any](lessThan func(a, b X) bool, xs []X) []X {
 	ss := sortableSlice[X]{
