@@ -9,12 +9,14 @@ import (
 )
 
 func TestIdentity(t *testing.T) {
+	myInt := 1
 	ids := []interface{}{
 		10,
 		"a",
 		10.0,
 		'a',
 		[]int{1, 2, 3},
+		&myInt,
 	}
 
 	for _, val := range ids {
@@ -97,12 +99,12 @@ func TestFoldl(t *testing.T) {
 }
 
 func TestFoldlNonAssociativeFunc(t *testing.T) {
-	input := []int{4, 2, 4}
-	identity := 64
-	div := func(x, y int) int { return x / y }
-	expectedOutput := 2
+	input := []int{1, 2, 3}
+	identity := 4
+	f := func(x, y int) int { return 2*x + y }
+	expectedOutput := 43
 
-	actualOutput := higherorder.Foldl(div, identity, input)
+	actualOutput := higherorder.Foldl(f, identity, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
 }
@@ -130,12 +132,12 @@ func TestFoldr(t *testing.T) {
 }
 
 func TestFoldrNonAssociativeFunc(t *testing.T) {
-	input := []int{8, 12, 24, 4}
-	identity := 2
-	div := func(x, y int) int { return x / y }
-	expectedOutput := 8
+	input := []int{1, 2, 3}
+	identity := 4
+	f := func(x, y int) int { return 2*x + y }
+	expectedOutput := 16
 
-	actualOutput := higherorder.Foldr(div, identity, input)
+	actualOutput := higherorder.Foldr(f, identity, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
 }
