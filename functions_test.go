@@ -161,6 +161,16 @@ func TestSort(t *testing.T) {
 	assert.Equal(t, expectedOutput, actualOutput)
 }
 
+func TestSortRandomInput(t *testing.T) {
+	input := []int{1, 9, 6, 7, 6, 3, 4, 5, 10, 2, 1, 8}
+	lessThan := func(x, y int) bool { return x < y }
+	expectedOutput := []int{1, 1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10}
+
+	actualOutput := higherorder.Sort(lessThan, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
 func TestSortCustomType(t *testing.T) {
 	type MyStruct struct {
 		s   string
