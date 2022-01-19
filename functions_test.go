@@ -30,7 +30,7 @@ func TestCompose(t *testing.T) {
 	f := func(x int) string { return strconv.Itoa(x) }
 	g := func(y string) bool { return y == "10" }
 
-	actualOutput := higherorder.Compose(10, f, g)
+	actualOutput := higherorder.Compose(g, f, 10)
 
 	assert.True(t, actualOutput)
 }
@@ -62,7 +62,7 @@ func TestMap(t *testing.T) {
 	toString := func(x int) string { return strconv.Itoa(x) }
 	expectedOutput := []string{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}
 
-	actualOutput := higherorder.Map(input, toString)
+	actualOutput := higherorder.Map(toString, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
 }
@@ -72,7 +72,7 @@ func TestFilter(t *testing.T) {
 	isEven := func(x int) bool { return x%2 == 0 }
 	expectedOutput := []int{2, 4, 6, 8, 10}
 
-	actualOutput := higherorder.Filter(input, isEven)
+	actualOutput := higherorder.Filter(isEven, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
 }
@@ -82,7 +82,7 @@ func TestFilterNoElemsPass(t *testing.T) {
 	isNegavtive := func(x int) bool { return x < 0 }
 	expectedOutput := []int{}
 
-	actualOutput := higherorder.Filter(input, isNegavtive)
+	actualOutput := higherorder.Filter(isNegavtive, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
 }
@@ -216,7 +216,7 @@ func BenchmarkMap(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		higherorder.Map(input, double)
+		higherorder.Map(double, input)
 	}
 }
 
@@ -226,7 +226,7 @@ func BenchmarkFilter(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		higherorder.Filter(input, isEven)
+		higherorder.Filter(isEven, input)
 	}
 }
 

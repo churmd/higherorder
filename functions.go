@@ -9,7 +9,7 @@ func Identity[X any](x X) X {
 }
 
 // Composes 2 functions together, applies the given value and returns the result
-func Compose[X, Y, Z any](val X, f func(X) Y, g func(Y) Z) Z {
+func Compose[X, Y, Z any](g func(Y) Z, f func(X) Y, val X) Z {
 	return g(f(val))
 }
 
@@ -28,7 +28,7 @@ func Reverse[X any](xs []X) []X {
 }
 
 // Applies a function to each element of a slice and returns the resulting list
-func Map[X, Y any](xs []X, f func(X) Y) []Y {
+func Map[X, Y any](f func(X) Y, xs []X) []Y {
 	ys := make([]Y, len(xs))
 
 	for i, x := range xs {
@@ -39,7 +39,7 @@ func Map[X, Y any](xs []X, f func(X) Y) []Y {
 }
 
 // Given a list, returns a list of those elements that satisfy the given predicate
-func Filter[X any](xs []X, predicate func(X) bool) []X {
+func Filter[X any]( predicate func(X) bool, xs []X) []X {
 	result := make([]X, 0)
 
 	for _, x := range xs {
