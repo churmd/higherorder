@@ -151,6 +151,31 @@ func TestFoldrChangeType(t *testing.T) {
 	assert.Equal(t, expectedOutput, actualOutput)
 }
 
+func TestSort(t *testing.T) {
+	input := []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}
+	lessThan := func(x, y int) bool { return x < y }
+	expectedOutput := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	actualOutput := higherorder.Sort(lessThan, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
+func TestSortCustomType(t *testing.T) {
+	type MyStruct struct {
+		s   string
+		num int
+	}
+
+	input := []MyStruct{{"10", 10}, {"9", 9}, {"8", 8}, {"7", 7}, {"6", 6}, {"5", 5}, {"4", 4}, {"3", 3}, {"2", 2}, {"1", 1}}
+	lessThan := func(x, y MyStruct) bool { return x.num < y.num }
+	expectedOutput := []MyStruct{{"1", 1}, {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5}, {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9}, {"10", 10}}
+
+	actualOutput := higherorder.Sort(lessThan, input)
+
+	assert.Equal(t, expectedOutput, actualOutput)
+}
+
 // Benchmarks
 
 func largeList() []int {
@@ -210,5 +235,15 @@ func BenchmarkFoldr(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		higherorder.Foldr(sum, 0, input)
+	}
+}
+
+func BenchmarkSort(b *testing.B) {
+	input := largeList()
+	lessThan := func(x, y int) bool { return x < y }
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.Sort(lessThan, input)
 	}
 }

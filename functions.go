@@ -62,3 +62,34 @@ func Foldr[X, Y any](f func(x X, y Y) Y, identity Y, values []X) Y {
 
 	return acc
 }
+
+func Sort[X any](lessThan func(a, b X) bool, xs []X) []X {
+	if len(xs) <= 1 {
+		return xs
+	}
+
+	pivot := xs[0]
+	var lt []X
+	var equal []X
+	var gt []X
+
+	for i := 1; i < len(xs); i++ {
+		currentElem := xs[i]
+		switch {
+		case lessThan(currentElem, pivot):
+			lt = append(lt, currentElem)
+		case lessThan(pivot, xs[i]):
+			gt = append(gt, currentElem)
+		default:
+			equal = append(equal, currentElem)
+		}
+	}
+
+	sortedLessThan := Sort(lessThan, lt)
+	sortedGreaterThan := Sort(lessThan, gt)
+
+	tmp := append(sortedLessThan, pivot)
+	tmp = append(tmp, equal...)
+	tmp = append(tmp, sortedGreaterThan...)
+	return tmp
+}
