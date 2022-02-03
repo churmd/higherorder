@@ -13,3 +13,6 @@ coverage:
 
 benchmark:
 	go1.18beta1 test -bench=. ./...
+
+run-example:
+	go1.18beta1 run examples/example.go
