@@ -2,7 +2,7 @@
 
 # HigherOrder
 
-Higher order functions written with golang 1.18 beta generics
+Higher order functions written with golang 1.18 generics
 
 Functions included are:
 
