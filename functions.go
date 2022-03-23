@@ -54,8 +54,8 @@ func Filter[X any](predicate func(X) bool, xs []X) []X {
 
 // Reduces the slice using the given binary function f from left to right
 //
-// The identity value is passed to f with the first element in the slice to start with
-// the result of that is passed to f with the sencond element of the slice
+// The identity value is passed to f with the first element in the slice to start with,
+// then the result of the previous calculation is passed to f with the sencond element of the slice
 // and so on
 //
 // Example:
@@ -73,8 +73,8 @@ func Foldl[X, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
 
 // Reduces the slice using the given binary function f from right to left
 //
-// The last element of the slice is passed to f with the identity value to start
-// the second to last element of the slice is passed to f with the result of that
+// The last element of the slice is passed to f with the identity value to start with,
+// then the second to last element of the slice is passed to f with the result of the previous calculation
 // and so on
 //
 // Example:
