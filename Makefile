@@ -1,18 +1,18 @@
 format:
-	go1.18beta1 fmt ./...
+	go fmt ./...
 
 clean_test_cache:
-	go1.18beta1 clean -testcache
+	go clean -testcache
 
 test: clean_test_cache
-	go1.18beta1 test ./...
+	go test ./...
 
 coverage:
-	go1.18beta1 test ./... -coverprofile=coverage.out
-	go1.18beta1 tool cover -html=coverage.out
+	go test ./... -coverprofile=coverage.out
+	go tool cover -html=coverage.out
 
 benchmark:
-	go1.18beta1 test -bench=. ./...
+	go test -bench=. ./...
 
 run-example:
-	go1.18beta1 run examples/example.go
+	go run examples/example.go
