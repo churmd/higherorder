@@ -1,16 +1,19 @@
+[![GoDoc](https://godoc.org/github.com/churmd/higherorder?status.svg)](https://pkg.go.dev/github.com/churmd/higherorder)
+
 # HigherOrder
 
 Higher order functions written with golang 1.18 beta generics
 
 Functions included are:
-* Identity
-* Compose
-* Reverse
-* Map
-* Filter
-* Foldl
-* Foldr
-* Sort
+
+-   Identity
+-   Compose
+-   Reverse
+-   Map
+-   Filter
+-   Foldl
+-   Foldr
+-   Sort
 
 Example
 
@@ -34,5 +37,4 @@ func main() {
 
 ```
 
-
-These functions will complete all their work before returning and will return a variable that can be used immediately in any other function. It does not take an iterable approach to increase performance on large slices or when only the first n elements are needed. 
+These functions will complete all their work before returning and will return a variable that can be used immediately in any other function. It does not take an iterable approach to increase performance on large slices or when only the first n elements are needed.
