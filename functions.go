@@ -13,18 +13,19 @@ func Compose[X, Y, Z any](g func(Y) Z, f func(X) Y, val X) Z {
 	return g(f(val))
 }
 
-// Reverses a slice of nay type and returns the result
+// Reverses a slice of any type and returns the result
 func Reverse[X any](xs []X) []X {
-	numElems := len(xs)
+	vals := clone(xs)
+	numElems := len(vals)
 
 	for i := 0; i < numElems/2; i++ {
-		tmp := xs[i]
+		tmp := vals[i]
 		rightIndex := numElems - 1 - i
-		xs[i] = xs[rightIndex]
-		xs[rightIndex] = tmp
+		vals[i] = vals[rightIndex]
+		vals[rightIndex] = tmp
 	}
 
-	return xs
+	return vals
 }
 
 // Applies a function to each element of a slice and returns the resulting list
@@ -115,11 +116,18 @@ func (ss *sortableSlice[X]) Swap(i, j int) {
 // lessThan function returns true
 // when the first param a comes before the second param b
 func Sort[X any](lessThan func(a, b X) bool, xs []X) []X {
+	vals := clone(xs)
 	ss := sortableSlice[X]{
-		values:   xs,
+		values:   vals,
 		lessThan: lessThan,
 	}
 
 	sort.Sort(&ss)
 	return ss.values
+}
+
+func clone[X any](xs []X) []X {
+	vals := make([]X, len(xs))
+	copy(vals, xs)
+	return vals
 }

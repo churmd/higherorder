@@ -49,10 +49,13 @@ func TestReverse(t *testing.T) {
 	}
 
 	for i, input := range inputs {
+		originalInput := make([]int, len(input))
+		copy(originalInput, input)
 		expectedOutput := expectedOutputs[i]
 		actualOutput := higherorder.Reverse(input)
 
-		assert.Equal(t, expectedOutput, actualOutput, "failed reversing list: %v\nExpected:%v\nActual  :%v", input, expectedOutput, actualOutput)
+		assert.Equal(t, expectedOutput, actualOutput)
+		assert.Equal(t, originalInput, input, "orignal list is not preserved")
 	}
 
 }
@@ -65,6 +68,7 @@ func TestMap(t *testing.T) {
 	actualOutput := higherorder.Map(toString, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, input, "orignal list is not preserved")
 }
 
 func TestFilter(t *testing.T) {
@@ -75,6 +79,7 @@ func TestFilter(t *testing.T) {
 	actualOutput := higherorder.Filter(isEven, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, input, "orignal list is not preserved")
 }
 
 func TestFilterNoElemsPass(t *testing.T) {
@@ -85,6 +90,7 @@ func TestFilterNoElemsPass(t *testing.T) {
 	actualOutput := higherorder.Filter(isNegavtive, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
+	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, input, "orignal list is not preserved")
 }
 
 func TestFoldl(t *testing.T) {
@@ -161,6 +167,7 @@ func TestSort(t *testing.T) {
 	actualOutput := higherorder.Sort(lessThan, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
+	assert.Equal(t, []int{10, 9, 8, 7, 6, 5, 4, 3, 2, 1}, input)
 }
 
 func TestSortRandomInput(t *testing.T) {
@@ -171,6 +178,7 @@ func TestSortRandomInput(t *testing.T) {
 	actualOutput := higherorder.Sort(lessThan, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
+	assert.Equal(t, []int{1, 9, 6, 7, 6, 3, 4, 5, 10, 2, 1, 8}, input)
 }
 
 func TestSortCustomType(t *testing.T) {
@@ -186,6 +194,7 @@ func TestSortCustomType(t *testing.T) {
 	actualOutput := higherorder.Sort(lessThan, input)
 
 	assert.Equal(t, expectedOutput, actualOutput)
+	assert.Equal(t, []MyStruct{{"10", 10}, {"9", 9}, {"8", 8}, {"7", 7}, {"6", 6}, {"5", 5}, {"4", 4}, {"3", 3}, {"2", 2}, {"1", 1}}, input)
 }
 
 // Benchmarks
