@@ -55,6 +55,18 @@ func Filter[X any](p Predicate[X], xs []X) []X {
 	return result
 }
 
+// Given a list, returns true if all elements satisfy the given predicate
+// returns false otherwise
+func All[X any](p Predicate[X], xs []X) bool {
+	for _, x := range xs {
+		if !p(x) {
+			return false
+		}
+	}
+
+	return true
+}
+
 // Reduces the slice using the given binary function f from left to right
 //
 // The identity value is passed to f with the first element in the slice to start with,

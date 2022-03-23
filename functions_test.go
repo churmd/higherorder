@@ -93,6 +93,27 @@ func TestFilterNoElemsPass(t *testing.T) {
 	assert.Equal(t, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, input, "orignal list is not preserved")
 }
 
+func TestAll(t *testing.T) {
+	inputs := [][]int{
+		{},
+		{0, 2, 4, 6, 8},
+		{0, 1, 2, 3, 4},
+	}
+
+	expectedOutputs := []bool{
+		true,
+		true,
+		false,
+	}
+
+	for i, input := range inputs {
+		isEven := func(x int) bool { return x%2 == 0 }
+		actualOutput := higherorder.All(isEven, input)
+
+		assert.Equal(t, expectedOutputs[i], actualOutput)
+	}
+}
+
 func TestFoldl(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	identity := 0
@@ -236,6 +257,16 @@ func BenchmarkFilter(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		higherorder.Filter(isEven, input)
+	}
+}
+
+func BenchmarkAll(b *testing.B) {
+	input := largeList()
+	isPositive := func(x int) bool { return x >= 0 }
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.All(isPositive, input)
 	}
 }
 

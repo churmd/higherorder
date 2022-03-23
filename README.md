@@ -6,14 +6,17 @@ Higher order functions written with golang 1.18 generics
 
 Functions included are:
 
--   Identity
+-   All
 -   Compose
--   Reverse
--   Map
 -   Filter
 -   Foldl
 -   Foldr
+-   Identity
+-   Map
+-   Reverse
 -   Sort
+
+These functions will complete all their work before returning and will return a variable that can be used immediately in any other function. It does not take an iterable approach to increase performance on large slices or when only the first n elements are needed.
 
 Example
 
@@ -37,5 +40,3 @@ func main() {
 }
 
 ```
-
-These functions will complete all their work before returning and will return a variable that can be used immediately in any other function. It does not take an iterable approach to increase performance on large slices or when only the first n elements are needed.
