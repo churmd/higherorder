@@ -31,7 +31,8 @@ func main() {
 	double := func(x int) int { return x * 2 }
 	lessThan10 := func(x int) bool { return x < 10 }
 
-	output := higherorder.Filter(lessThan10, higherorder.Map(double, input)) // output == []int{2, 4, 6, 8}
+	// output == []int{2, 4, 6, 8}
+	output := higherorder.Filter(lessThan10, higherorder.Map(double, input))
 	fmt.Printf("%v\n", output)
 }
 

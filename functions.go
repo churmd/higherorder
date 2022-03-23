@@ -2,6 +2,9 @@ package higherorder
 
 import "sort"
 
+// A function that given an arguement returns true or false
+type Predicate[X any] func(X) bool
+
 // The identity function
 // Returns the give value unchanged
 func Identity[X any](x X) X {
@@ -40,11 +43,11 @@ func Map[X, Y any](f func(X) Y, xs []X) []Y {
 }
 
 // Given a list, returns a list of those elements that satisfy the given predicate
-func Filter[X any](predicate func(X) bool, xs []X) []X {
+func Filter[X any](p Predicate[X], xs []X) []X {
 	result := make([]X, 0)
 
 	for _, x := range xs {
-		if predicate(x) {
+		if p(x) {
 			result = append(result, x)
 		}
 	}
