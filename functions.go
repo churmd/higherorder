@@ -67,6 +67,18 @@ func All[X any](p Predicate[X], xs []X) bool {
 	return true
 }
 
+// Given a list, returns true if a single element satisfies the given predicate
+// returns false otherwise
+func Any[X any](p Predicate[X], xs []X) bool {
+	for _, x := range xs {
+		if p(x) {
+			return true
+		}
+	}
+
+	return false
+}
+
 // Reduces the slice using the given binary function f from left to right
 //
 // The identity value is passed to f with the first element in the slice to start with,

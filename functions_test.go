@@ -114,6 +114,27 @@ func TestAll(t *testing.T) {
 	}
 }
 
+func TestAny(t *testing.T) {
+	inputs := [][]int{
+		{},
+		{1, 2, 3, 4},
+		{1, 3, 5, 7},
+	}
+
+	expectedOutputs := []bool{
+		false,
+		true,
+		false,
+	}
+
+	for i, input := range inputs {
+		isEven := func(x int) bool { return x%2 == 0 }
+		actualOutput := higherorder.Any(isEven, input)
+
+		assert.Equal(t, expectedOutputs[i], actualOutput)
+	}
+}
+
 func TestFoldl(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	identity := 0
@@ -267,6 +288,16 @@ func BenchmarkAll(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		higherorder.All(isPositive, input)
+	}
+}
+
+func BenchmarkAny(b *testing.B) {
+	input := largeList()
+	isNegative := func(x int) bool { return x < 0 }
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.Any(isNegative, input)
 	}
 }
 

@@ -7,6 +7,7 @@ Higher order functions written with golang 1.18 generics
 Functions included are:
 
 -   All
+-       Any
 -   Compose
 -   Filter
 -   Foldl
