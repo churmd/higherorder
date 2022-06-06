@@ -135,6 +135,39 @@ func TestAny(t *testing.T) {
 	}
 }
 
+func TestFirst(t *testing.T) {
+	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	predicates := []higherorder.Predicate[int]{
+		func(x int) bool { return x%2 != 0 },
+		func(x int) bool { return x%2 == 0 },
+		func(x int) bool { return x > 9 },
+	}
+	expectedOutputs := []int{
+		1,
+		2,
+		10,
+	}
+
+	for i := 0; i < len(predicates); i++ {
+		actualOutput, err := higherorder.First(predicates[i], input)
+
+		assert.NoError(t, err)
+		assert.Equal(t, expectedOutputs[i], actualOutput)
+	}
+}
+
+func TestFirstWithNoMatches(t *testing.T) {
+	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	predicate := func(x int) bool { return x > 10 }
+	expectedError := "first failed to find an element that satisfied the given predicate"
+
+	actualOutput, err := higherorder.First(predicate, input)
+
+	assert.EqualError(t, err, expectedError)
+	assert.Equal(t, 0, actualOutput)
+
+}
+
 func TestFoldl(t *testing.T) {
 	input := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	identity := 0
@@ -298,6 +331,16 @@ func BenchmarkAny(b *testing.B) {
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		higherorder.Any(isNegative, input)
+	}
+}
+
+func BenchmarkFirst(b *testing.B) {
+	input := largeList()
+	over500 := func(x int) bool { return x > 500 }
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		higherorder.First(over500, input)
 	}
 }
 

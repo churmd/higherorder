@@ -10,6 +10,7 @@ Functions included are:
 -   Any
 -   Compose
 -   Filter
+-   First
 -   Foldl
 -   Foldr
 -   Identity

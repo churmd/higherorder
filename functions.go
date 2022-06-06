@@ -1,6 +1,9 @@
 package higherorder
 
-import "sort"
+import (
+	"errors"
+	"sort"
+)
 
 // A function that given an arguement returns true or false
 type Predicate[X any] func(X) bool
@@ -77,6 +80,20 @@ func Any[X any](p Predicate[X], xs []X) bool {
 	}
 
 	return false
+}
+
+// Returns the first element that satisfies the given predicate
+// Otherwise an error is returned
+func First[X any](p Predicate[X], xs []X) (X, error) {
+	for _, x := range xs {
+		if p(x) {
+			return x, nil
+		}
+	}
+
+	var zeroVal X
+	err := errors.New("first failed to find an element that satisfied the given predicate")
+	return zeroVal, err
 }
 
 // Reduces the slice using the given binary function f from left to right
