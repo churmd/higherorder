@@ -99,7 +99,7 @@ func First[X any](p Predicate[X], xs []X) (X, error) {
 // Foldl Reduces the slice using the given binary function f from left to right
 //
 // The identity value is passed to f with the first element in the slice to start with,
-// then the result of the previous calculation is passed to f with the sencond element of the slice
+// then the result of the previous calculation is passed to f with the second element of the slice
 // and so on
 //
 // Example:
@@ -141,11 +141,11 @@ type sortableSlice[X any] struct {
 	lessThan func(a, b X) bool
 }
 
-func (ss sortableSlice[X]) Len() int {
+func (ss *sortableSlice[X]) Len() int {
 	return len(ss.values)
 }
 
-func (ss sortableSlice[X]) Less(i, j int) bool {
+func (ss *sortableSlice[X]) Less(i, j int) bool {
 	return ss.lessThan(ss.values[i], ss.values[j])
 }
 
