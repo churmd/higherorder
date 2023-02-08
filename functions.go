@@ -5,21 +5,21 @@ import (
 	"sort"
 )
 
-// A function that given an arguement returns true or false
+// Predicate A function that given an arguement returns true or false
 type Predicate[X any] func(X) bool
 
-// The identity function
+// Identity The identity function
 // Returns the give value unchanged
 func Identity[X any](x X) X {
 	return x
 }
 
-// Composes 2 functions together, applies the given value and returns the result
+// Compose Composes 2 functions together, applies the given value and returns the result
 func Compose[X, Y, Z any](g func(Y) Z, f func(X) Y, val X) Z {
 	return g(f(val))
 }
 
-// Reverses a slice of any type and returns the result
+// Reverse Reverses a slice of any type and returns the result
 func Reverse[X any](xs []X) []X {
 	vals := clone(xs)
 	numElems := len(vals)
@@ -34,7 +34,7 @@ func Reverse[X any](xs []X) []X {
 	return vals
 }
 
-// Applies a function to each element of a slice and returns the resulting list
+// Map Applies a function to each element of a slice and returns the resulting list
 func Map[X, Y any](f func(X) Y, xs []X) []Y {
 	ys := make([]Y, len(xs))
 
@@ -45,7 +45,7 @@ func Map[X, Y any](f func(X) Y, xs []X) []Y {
 	return ys
 }
 
-// Given a list, returns a list of those elements that satisfy the given predicate
+// Filter Given a list, returns a list of those elements that satisfy the given predicate
 func Filter[X any](p Predicate[X], xs []X) []X {
 	result := make([]X, 0)
 
@@ -58,7 +58,7 @@ func Filter[X any](p Predicate[X], xs []X) []X {
 	return result
 }
 
-// Given a list, returns true if all elements satisfy the given predicate
+// All Given a list, returns true if all elements satisfy the given predicate
 // returns false otherwise
 func All[X any](p Predicate[X], xs []X) bool {
 	for _, x := range xs {
@@ -70,7 +70,7 @@ func All[X any](p Predicate[X], xs []X) bool {
 	return true
 }
 
-// Given a list, returns true if a single element satisfies the given predicate
+// Any Given a list, returns true if a single element satisfies the given predicate
 // returns false otherwise
 func Any[X any](p Predicate[X], xs []X) bool {
 	for _, x := range xs {
@@ -82,7 +82,7 @@ func Any[X any](p Predicate[X], xs []X) bool {
 	return false
 }
 
-// Returns the first element that satisfies the given predicate
+// First Returns the first element that satisfies the given predicate
 // Otherwise an error is returned
 func First[X any](p Predicate[X], xs []X) (X, error) {
 	for _, x := range xs {
@@ -96,7 +96,7 @@ func First[X any](p Predicate[X], xs []X) (X, error) {
 	return zeroVal, err
 }
 
-// Reduces the slice using the given binary function f from left to right
+// Foldl Reduces the slice using the given binary function f from left to right
 //
 // The identity value is passed to f with the first element in the slice to start with,
 // then the result of the previous calculation is passed to f with the sencond element of the slice
@@ -115,7 +115,7 @@ func Foldl[X, Y any](f func(y Y, x X) Y, identity Y, values []X) Y {
 	return acc
 }
 
-// Reduces the slice using the given binary function f from right to left
+// Foldr Reduces the slice using the given binary function f from right to left
 //
 // The last element of the slice is passed to f with the identity value to start with,
 // then the second to last element of the slice is passed to f with the result of the previous calculation
@@ -155,7 +155,7 @@ func (ss *sortableSlice[X]) Swap(i, j int) {
 	ss.values[j] = tmp
 }
 
-// Given a list, returns the sorted list according to the given lessThan function
+// Sort Given a list, returns the sorted list according to the given lessThan function
 //
 // lessThan function returns true
 // when the first param a comes before the second param b
