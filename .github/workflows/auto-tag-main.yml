@@ -1,4 +1,8 @@
 name: Auto Tag Master
+on:
+  push:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-22.04
